@@ -1,0 +1,33 @@
+import Link from "next/link";
+import "../styles/globals.css";
+
+export default function Home() {
+  return (
+    <main className="container">
+      <header className="header">
+        <img src="/logo.svg" alt="TASQ JAPAN" className="logo" />
+        <h1>TASQ JAPAN MVP</h1>
+        <p>通常オークション / 逆オークションの検証用MVP</p>
+      </header>
+
+      <section className="card">
+        <h2>機能デモ</h2>
+        <ul>
+          <li>商品一覧 → 詳細 → 入札フローの疑似体験</li>
+          <li>通常/逆オークション切り替え</li>
+          <li>入札額のバリデーション（クライアント側）</li>
+        </ul>
+        <Link className="button" href="/auction">デモを開く</Link>
+      </section>
+
+      <section className="card">
+        <h2>ヘルスチェック</h2>
+        <a className="link" href="/api/health" target="_blank" rel="noreferrer">
+          /api/health を開く
+        </a>
+      </section>
+
+      <footer className="footer">© TASQ JAPAN MVP</footer>
+    </main>
+  );
+}

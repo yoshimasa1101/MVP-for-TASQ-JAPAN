@@ -1,0 +1,122 @@
+import { useMemo, useState } from "react";
+import "../styles/globals.css";
+
+const mockItems = [
+  { id: "A-001", name: "MacBook Pro 14", type: "normal", current: 168000, endsInMin: 90 },
+  { id: "R-002", name: "法人向け清掃サービス", type: "reverse", current: 42000, endsInMin: 60 },
+  { id: "A-003", name: "iPad Air", type: "normal", current: 58000, endsInMin: 120 }
+];
+
+export default function Auction() {
+  const [mode, setMode] = useState("normal"); // "normal" | "reverse"
+  const [selected, setSelected] = useState(null);
+  const [bid, setBid] = useState("");
+
+  const items = useMemo(
+    () => mockItems.filter(i => i.type === mode),
+    [mode]
+  );
+
+  const selectedItem = useMemo(
+    () => items.find(i => i.id === selected) || null,
+    [items, selected]
+  );
+
+  const canBid = useMemo(() => {
+    const v = Number(bid);
+    if (!selectedItem || Number.isNaN(v) || v <= 0) return false;
+    return mode === "normal" ? v > selectedItem.current : v < selectedItem.current;
+  }, [bid, mode, selectedItem]);
+
+  const handleSubmit = (e) => {
+    e.preventDefault();
+    if (!canBid) return;
+    alert(
+      `入札を受け付けました。\n\n商品: ${selectedItem.name}\nモード: ${mode === "normal" ? "通常" : "逆"}\n入札額: ${Number(bid).toLocaleString()} 円`
+    );
+    setBid("");
+  };
+
+  return (
+    <main className="container">
+      <header className="header">
+        <h1>オークション デモ</h1>
+        <div className="tabs">
+          <button
+            className={mode === "normal" ? "tab active" : "tab"}
+            onClick={() => { setMode("normal"); setSelected(null); setBid(""); }}
+          >
+            通常オークション
+          </button>
+          <button
+            className={mode === "reverse" ? "tab active" : "tab"}
+            onClick={() => { setMode("reverse"); setSelected(null); setBid(""); }}
+          >
+            逆オークション
+          </button>
+        </div>
+      </header>
+
+      <section className="layout">
+        <aside className="list">
+          <h2>商品一覧</h2>
+          <ul>
+            {items.map(i => (
+              <li key={i.id}
+                  className={selected === i.id ? "row selected" : "row"}
+                  onClick={() => setSelected(i.id)}>
+                <div className="row-title">{i.name}</div>
+                <div className="row-meta">
+                  {mode === "normal" ? "現在価格" : "現在提示"}: {i.current.toLocaleString()} 円
+                  <span className="dot">•</span> 残り {i.endsInMin} 分
+                </div>
+              </li>
+            ))}
+          </ul>
+        </aside>
+
+        <section className="detail">
+          {!selectedItem && <p>左の一覧から商品を選択してください。</p>}
+          {selectedItem && (
+            <>
+              <h2>{selectedItem.name}</h2>
+              <p className="muted">
+                モード: {mode === "normal" ? "通常オークション（高値優先）" : "逆オークション（低値優先）"}
+              </p>
+              <p className="price">
+                {mode === "normal" ? "現在価格" : "現在提示"}: {selectedItem.current.toLocaleString()} 円
+              </p>
+
+              <form onSubmit={handleSubmit} className="form">
+                <label>入札額</label>
+                <input
+                  type="number"
+                  value={bid}
+                  onChange={(e) => setBid(e.target.value)}
+                  placeholder="金額を入力"
+                  min="1"
+                  step="100"
+                  required
+                />
+                <button className="button" type="submit" disabled={!canBid}>
+                  入札する
+                </button>
+                {!canBid && bid && (
+                  <p className="error">
+                    {mode === "normal"
+                      ? "通常オークションでは現在価格より高い金額を入力してください。"
+                      : "逆オークションでは現在提示より低い金額を入力してください。"}
+                  </p>
+                )}
+              </form>
+
+              <div className="note">
+                決済（Stripe）はMVP段階ではダミーです。次ステップで /api/payment を実装・接続可能な構成です。
+              </div>
+            </>
+          )}
+        </section>
+      </section>
+    </main>
+  );
+}

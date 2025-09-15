@@ -1,9 +1,18 @@
 import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
+import Cookies from 'js-cookie' // npm install js-cookie
 
 export default function Home() {
   useEffect(() => {
+    // URLパラメータからrefを取得してCookieに保存（7日間有効）
+    const urlParams = new URLSearchParams(window.location.search)
+    const ref = urlParams.get('ref')
+    if (ref) {
+      Cookies.set('referrer', ref, { expires: 7 })
+    }
+
+    // スクロールアニメーション処理
     const handleScroll = () => {
       const scrollY = window.scrollY
       document.querySelectorAll('.wave').forEach((wave, index) => {
@@ -26,12 +35,13 @@ export default function Home() {
     e.preventDefault()
     const name = e.target.name.value
     const email = e.target.email.value
+    const referrer = Cookies.get('referrer') || null
 
     try {
       await fetch('/api/sendMail', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ name, email })
+        body: JSON.stringify({ name, email, referrer })
       })
       window.location.href = '/thanks'
     } catch (error) {
@@ -84,7 +94,7 @@ export default function Home() {
       </div>
 
       <style jsx>{`
-        /* 必要なCSSは省略せず、前回のスタイルをそのまま維持 */
+        /* 必要なCSSは前回のスタイルをそのまま維持 */
       `}</style>
     </>
   )

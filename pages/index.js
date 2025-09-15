@@ -4,45 +4,73 @@ import Link from 'next/link'
 
 export default function Home() {
   useEffect(() => {
-    // スクロールで波を上下に動かすパララックス効果
+    // パララックス波の上下動き
     const handleScroll = () => {
       const scrollY = window.scrollY
       document.querySelectorAll('.wave').forEach((wave, index) => {
         const speed = index === 0 ? 0.2 : 0.4
         wave.style.transform = `translateY(${scrollY * speed}px)`
       })
+
+      // スクロールで要素をフェードイン
+      document.querySelectorAll('.fade-section').forEach((el) => {
+        const rect = el.getBoundingClientRect()
+        if (rect.top < window.innerHeight * 0.85) {
+          el.classList.add('visible')
+        }
+      })
     }
     window.addEventListener('scroll', handleScroll)
+    handleScroll()
     return () => window.removeEventListener('scroll', handleScroll)
   }, [])
 
   return (
-    <section className="hero">
-      {/* 波アニメーション背景 */}
-      <div className="wave wave1"></div>
-      <div className="wave wave2"></div>
+    <>
+      {/* ヒーローセクション */}
+      <section className="hero">
+        <div className="wave wave1"></div>
+        <div className="wave wave2"></div>
 
-      {/* 左側：ロゴ */}
-      <div className="logo-container fade-in">
-        <Image src="/logo.svg" alt="TASQ Logo" width={200} height={200} />
-      </div>
-
-      {/* 右側：テキスト＋ボタン */}
-      <div className="text-container fade-in">
-        <h1>逆オークション型マッチングプラットフォーム</h1>
-        <p>無駄な営業をなくし、最適なマッチングを最短で実現します。</p>
-        <div className="button-group">
-          <Link href="/register">
-            <button className="btn-yellow">ユーザー登録</button>
-          </Link>
-          <Link href="/auctions">
-            <button className="btn-black">オークションを見る</button>
-          </Link>
+        <div className="logo-container fade-section">
+          <Image src="/logo.svg" alt="TASQ Logo" width={200} height={200} />
         </div>
-      </div>
 
-      {/* スタイル */}
+        <div className="text-container fade-section">
+          <h1>逆オークション型マッチングプラットフォーム</h1>
+          <p>無駄な営業をなくし、最適なマッチングを最短で実現します。</p>
+          <div className="button-group">
+            <Link href="/register">
+              <button className="btn-yellow">ユーザー登録</button>
+            </Link>
+            <Link href="/auctions">
+              <button className="btn-black">オークションを見る</button>
+            </Link>
+          </div>
+        </div>
+      </section>
+
+      {/* ストーリーテリングセクション */}
+      <section className="fade-section story">
+        <h2>なぜTASQなのか？</h2>
+        <p>従来の営業活動は時間もコストもかかります。TASQは逆オークション形式で、最適な相手と最短でマッチングします。</p>
+      </section>
+
+      <section className="fade-section story">
+        <h2>シンプルな流れ</h2>
+        <p>1. 案件を登録 → 2. 応募を受ける → 3. 最適な条件で契約</p>
+      </section>
+
+      <section className="fade-section story">
+        <h2>今すぐ始めましょう</h2>
+        <p>登録は無料。数分であなたの案件が全国に届きます。</p>
+        <Link href="/register">
+          <button className="btn-yellow">無料で登録</button>
+        </Link>
+      </section>
+
       <style jsx>{`
+        /* ヒーロー */
         .hero {
           position: relative;
           overflow: hidden;
@@ -130,25 +158,4 @@ export default function Home() {
           100% { transform: translateX(-50%); }
         }
 
-        /* フェードイン */
-        .fade-in {
-          opacity: 0;
-          transform: translateY(20px);
-          animation: fadeInUp 1s ease forwards;
-        }
-        .fade-in:nth-child(1) {
-          animation-delay: 0.3s;
-        }
-        .fade-in:nth-child(2) {
-          animation-delay: 0.6s;
-        }
-        @keyframes fadeInUp {
-          to {
-            opacity: 1;
-            transform: translateY(0);
-          }
-        }
-      `}</style>
-    </section>
-  )
-}
+        /* フェードイン（スクロール連動） */

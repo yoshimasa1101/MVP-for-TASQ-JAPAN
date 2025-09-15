@@ -3,7 +3,8 @@ import Link from 'next/link'
 import { useState } from 'react'
 
 export default function Header() {
-  const [menuOpen, setMenuOpen] = useState(false)
+  // ロゴ切り替え用の状態
+  const [useNewLogo, setUseNewLogo] = useState(true)
 
   return (
     <header style={{
@@ -14,66 +15,38 @@ export default function Header() {
       borderBottom: '1px solid #ddd',
       position: 'relative'
     }}>
-      {/* ロゴ */}
+      {/* ロゴ部分 */}
       <div style={{ display: 'flex', alignItems: 'center' }}>
-        <Image src="/logo.svg" alt="TASQ Logo" width={50} height={50} />
+        <Image
+          src={useNewLogo ? "/logo_new.svg" : "/logo_old.svg"} // ← 状態で切り替え
+          alt="TASQ Logo"
+          width={50}
+          height={50}
+        />
         <h2 style={{ marginLeft: '10px' }}>TASQ JAPAN</h2>
       </div>
 
-      {/* PC表示用ナビ */}
-      <nav className="nav-links" style={{
-        display: 'flex',
-        gap: '20px'
-      }}>
+      {/* ナビゲーション */}
+      <nav style={{ display: 'flex', gap: '20px' }}>
         <Link href="/register">ユーザー登録</Link>
         <Link href="/auctions">オークション一覧</Link>
         <Link href="/mypage">マイページ</Link>
       </nav>
 
-      {/* ハンバーガーボタン（スマホ用） */}
-      <div
-        className="hamburger"
+      {/* ロゴ切り替えボタン */}
+      <button
+        onClick={() => setUseNewLogo(!useNewLogo)}
         style={{
-          display: 'none',
-          flexDirection: 'column',
-          cursor: 'pointer'
+          marginLeft: '20px',
+          padding: '5px 10px',
+          border: '1px solid #ccc',
+          borderRadius: '4px',
+          cursor: 'pointer',
+          background: '#f9f9f9'
         }}
-        onClick={() => setMenuOpen(!menuOpen)}
       >
-        <span style={{ width: '25px', height: '3px', background: '#333', margin: '4px 0' }}></span>
-        <span style={{ width: '25px', height: '3px', background: '#333', margin: '4px 0' }}></span>
-        <span style={{ width: '25px', height: '3px', background: '#333', margin: '4px 0' }}></span>
-      </div>
-
-      {/* スマホ用メニュー */}
-      {menuOpen && (
-        <div style={{
-          position: 'absolute',
-          top: '60px',
-          right: '20px',
-          background: '#fff',
-          border: '1px solid #ddd',
-          padding: '10px',
-          display: 'flex',
-          flexDirection: 'column',
-          gap: '10px'
-        }}>
-          <Link href="/register" onClick={() => setMenuOpen(false)}>ユーザー登録</Link>
-          <Link href="/auctions" onClick={() => setMenuOpen(false)}>オークション一覧</Link>
-          <Link href="/mypage" onClick={() => setMenuOpen(false)}>マイページ</Link>
-        </div>
-      )}
-
-      <style jsx>{`
-        @media (max-width: 768px) {
-          .nav-links {
-            display: none !important;
-          }
-          .hamburger {
-            display: flex !important;
-          }
-        }
-      `}</style>
+        ロゴ切り替え
+      </button>
     </header>
   )
 }

@@ -48,25 +48,37 @@ export default function Home() {
       </section>
 
       {/* ストーリーセクション */}
-      <section className="fade-section story">
-        <Image src="/icons/why.svg" alt="Why TASQ" width={80} height={80} />
-        <h2>なぜTASQなのか？</h2>
-        <p>従来の営業活動は時間もコストもかかります。TASQは逆オークション形式で、最適な相手と最短でマッチングします。</p>
+      <section className="fade-section story alt">
+        <div className="story-text">
+          <h2>なぜTASQなのか？</h2>
+          <p>従来の営業活動は時間もコストもかかります。TASQは逆オークション形式で、最適な相手と最短でマッチングします。</p>
+        </div>
+        <div className="story-image">
+          <Image src="/screenshots/why-tasq.png" alt="Why TASQ" width={500} height={300} />
+        </div>
       </section>
 
       <section className="fade-section story">
-        <Image src="/icons/flow.svg" alt="Flow" width={80} height={80} />
-        <h2>シンプルな流れ</h2>
-        <p>1. 案件を登録 → 2. 応募を受ける → 3. 最適な条件で契約</p>
+        <div className="story-image">
+          <Image src="/screenshots/flow.png" alt="Flow" width={500} height={300} />
+        </div>
+        <div className="story-text">
+          <h2>シンプルな流れ</h2>
+          <p>1. 案件を登録 → 2. 応募を受ける → 3. 最適な条件で契約</p>
+        </div>
       </section>
 
-      <section className="fade-section story">
-        <Image src="/icons/start.svg" alt="Start Now" width={80} height={80} />
-        <h2>今すぐ始めましょう</h2>
-        <p>登録は無料。数分であなたの案件が全国に届きます。</p>
-        <Link href="/register">
-          <button className="btn-yellow">無料で登録</button>
-        </Link>
+      <section className="fade-section story alt">
+        <div className="story-text">
+          <h2>今すぐ始めましょう</h2>
+          <p>登録は無料。数分であなたの案件が全国に届きます。</p>
+          <Link href="/register">
+            <button className="btn-yellow">無料で登録</button>
+          </Link>
+        </div>
+        <div className="story-image">
+          <Image src="/screenshots/start-now.png" alt="Start Now" width={500} height={300} />
+        </div>
       </section>
 
       <style jsx>{`
@@ -134,13 +146,24 @@ export default function Home() {
 
         /* ストーリーセクション */
         .story {
-          max-width: 800px;
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 40px;
+          max-width: 1100px;
           margin: 80px auto;
-          text-align: center;
           padding: 0 20px;
+          flex-wrap: wrap;
         }
-        .story img {
-          margin-bottom: 20px;
+        .story.alt {
+          flex-direction: row-reverse;
+        }
+        .story-text {
+          flex: 1 1 400px;
+        }
+        .story-image {
+          flex: 1 1 400px;
+          text-align: center;
         }
         .story h2 {
           font-size: 2rem;
@@ -169,4 +192,4 @@ export default function Home() {
         }
         .wave2 {
           bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%' y1='0%' x2='100%' y2='0'%3E%3Cstop offset='0%' style='stop-color:%23FFD700;stop-opacity:0.8'/%3E%3Cstop offset='100%' style='stop-color:%23ffffff;stop-opacity:0.8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad2)' d='M0,192L48,186.7C96,181,192,171,288,165.3C384,
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cdefs%3E%

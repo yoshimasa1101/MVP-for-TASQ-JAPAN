@@ -13,13 +13,14 @@ export default function Home() {
       />
 
       {/* タイトルや説明 */}
-      <h1 style={{ marginTop: '20px' }}>ようこそ！複雑なワークション/オペレーションテストです。</h1>
+      <h1 style={{ marginTop: '20px' }}>ようこそ！TASQ JAPAN MVPへ</h1>
+      <p>これは価格競争を逆転させる「逆オークション」型マッチングプラットフォームのMVP版です。</p>
 
       {/* ナビゲーションリンク */}
       <p style={{ marginTop: '20px' }}>
-        <a href="/nav" style={{ color: '#0070f3', textDecoration: 'underline' }}>
-          ナビゲーションページ
-        </a>
+        <a href="/register" style={{ marginRight: '20px' }}>ユーザー登録</a>
+        <a href="/auctions" style={{ marginRight: '20px' }}>オークション一覧</a>
+        <a href="/mypage">マイページ</a>
       </p>
     </main>
   )

@@ -47,11 +47,51 @@ export default function Home() {
         </div>
       </section>
 
+      {/* ストーリーセクション */}
+      <section className="fade-section story alt">
+        <div className="story-text">
+          <h2>なぜTASQなのか？</h2>
+          <p>従来の営業活動は時間もコストもかかります。TASQは逆オークション形式で、最適な相手と最短でマッチングします。</p>
+        </div>
+        <div className="story-image">
+          <Image src="/screenshots/why-tasq.png" alt="Why TASQ" width={500} height={300} />
+        </div>
+      </section>
+
+      <section className="fade-section story">
+        <div className="story-image">
+          <Image src="/screenshots/flow.png" alt="Flow" width={500} height={300} />
+        </div>
+        <div className="story-text">
+          <h2>シンプルな流れ</h2>
+          <p>1. 案件を登録 → 2. 応募を受ける → 3. 最適な条件で契約</p>
+        </div>
+      </section>
+
+      <section className="fade-section story alt">
+        <div className="story-text">
+          <h2>今すぐ始めましょう</h2>
+          <p>登録は無料。数分であなたの案件が全国に届きます。</p>
+          <Link href="#register-form">
+            <button className="btn-yellow">無料で登録</button>
+          </Link>
+        </div>
+        <div className="story-image">
+          <Image src="/screenshots/start-now.png" alt="Start Now" width={500} height={300} />
+        </div>
+      </section>
+
       {/* 簡易登録フォーム */}
       <section id="register-form" className="fade-section form-section">
         <h2>無料で始める</h2>
         <p>以下のフォームに入力して、すぐにTASQを体験しましょう。</p>
-        <form>
+        <form
+          onSubmit={(e) => {
+            e.preventDefault()
+            // ここでメール送信APIを呼び出す処理を追加可能
+            window.location.href = '/thanks'
+          }}
+        >
           <input type="text" placeholder="お名前" required />
           <input type="email" placeholder="メールアドレス" required />
           <button type="submit" className="btn-yellow">登録する</button>
@@ -138,6 +178,36 @@ export default function Home() {
           box-shadow: 0 6px 15px rgba(0,0,0,0.35);
         }
 
+        /* ストーリーセクション */
+        .story {
+          display: flex;
+          align-items: center;
+          justify-content: space-between;
+          gap: 40px;
+          max-width: 1100px;
+          margin: 80px auto;
+          padding: 0 20px;
+          flex-wrap: wrap;
+        }
+        .story.alt {
+          flex-direction: row-reverse;
+        }
+        .story-text {
+          flex: 1 1 400px;
+        }
+        .story-image {
+          flex: 1 1 400px;
+          text-align: center;
+        }
+        .story h2 {
+          font-size: 2rem;
+          margin-bottom: 15px;
+        }
+        .story p {
+          font-size: 1.1rem;
+          color: #333;
+        }
+
         /* フォーム */
         .form-section {
           max-width: 500px;
@@ -171,23 +241,3 @@ export default function Home() {
         }
 
         /* 固定CTAバー */
-        .cta-bar {
-          position: fixed;
-          bottom: 0;
-          left: 0;
-          width: 100%;
-          background: #000;
-          color: #fff;
-          display: flex;
-          justify-content: space-between;
-          align-items: center;
-          padding: 10px 20px;
-          z-index: 1000;
-        }
-        .cta-bar span {
-          font-size: 1rem;
-        }
-      `}</style>
-    </>
-  )
-}

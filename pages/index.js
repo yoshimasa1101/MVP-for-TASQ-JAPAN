@@ -4,15 +4,12 @@ import Link from 'next/link'
 
 export default function Home() {
   useEffect(() => {
-    // パララックス波の上下動き
     const handleScroll = () => {
       const scrollY = window.scrollY
       document.querySelectorAll('.wave').forEach((wave, index) => {
         const speed = index === 0 ? 0.2 : 0.4
         wave.style.transform = `translateY(${scrollY * speed}px)`
       })
-
-      // スクロールで要素をフェードイン
       document.querySelectorAll('.fade-section').forEach((el) => {
         const rect = el.getBoundingClientRect()
         if (rect.top < window.innerHeight * 0.85) {
@@ -27,7 +24,7 @@ export default function Home() {
 
   return (
     <>
-      {/* ヒーローセクション */}
+      {/* ヒーロー */}
       <section className="hero">
         <div className="wave wave1"></div>
         <div className="wave wave2"></div>
@@ -50,18 +47,21 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ストーリーテリングセクション */}
+      {/* ストーリーセクション */}
       <section className="fade-section story">
+        <Image src="/icons/why.svg" alt="Why TASQ" width={80} height={80} />
         <h2>なぜTASQなのか？</h2>
         <p>従来の営業活動は時間もコストもかかります。TASQは逆オークション形式で、最適な相手と最短でマッチングします。</p>
       </section>
 
       <section className="fade-section story">
+        <Image src="/icons/flow.svg" alt="Flow" width={80} height={80} />
         <h2>シンプルな流れ</h2>
         <p>1. 案件を登録 → 2. 応募を受ける → 3. 最適な条件で契約</p>
       </section>
 
       <section className="fade-section story">
+        <Image src="/icons/start.svg" alt="Start Now" width={80} height={80} />
         <h2>今すぐ始めましょう</h2>
         <p>登録は無料。数分であなたの案件が全国に届きます。</p>
         <Link href="/register">
@@ -120,7 +120,7 @@ export default function Home() {
         .btn-yellow:hover {
           background-color: #ffcc00;
           transform: translateY(-3px);
-          box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+          box-shadow: 0 6px 15px rgba(0,0,0,0.25);
         }
         .btn-black {
           background-color: #000;
@@ -129,7 +129,26 @@ export default function Home() {
         .btn-black:hover {
           background-color: #222;
           transform: translateY(-3px);
-          box-shadow: 0 4px 10px rgba(0,0,0,0.3);
+          box-shadow: 0 6px 15px rgba(0,0,0,0.35);
+        }
+
+        /* ストーリーセクション */
+        .story {
+          max-width: 800px;
+          margin: 80px auto;
+          text-align: center;
+          padding: 0 20px;
+        }
+        .story img {
+          margin-bottom: 20px;
+        }
+        .story h2 {
+          font-size: 2rem;
+          margin-bottom: 15px;
+        }
+        .story p {
+          font-size: 1.1rem;
+          color: #333;
         }
 
         /* 波アニメーション */
@@ -150,12 +169,4 @@ export default function Home() {
         }
         .wave2 {
           bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%' y1='0%' x2='100%' y2='0'%3E%3Cstop offset='0%' style='stop-color:%23FFD700;stop-opacity:0.8'/%3E%3Cstop offset='100%' style='stop-color:%23ffffff;stop-opacity:0.8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad2)' d='M0,192L48,186.7C96,181,192,171,288,165.3C384,160,480,160,576,176C672,192,768,224,864,240C960,256,1056,256,1152,245.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L0,320Z'/%3E%3C/svg%3E");
-          animation: waveMove 18s linear infinite reverse;
-        }
-        @keyframes waveMove {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-
-        /* フェードイン（スクロール連動） */
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%' y1='0%' x2='100%' y2='0'%3E%3Cstop offset='0%' style='stop-color:%23FFD700;stop-opacity:0.8'/%3E%3Cstop offset='100%' style='stop-color:%23ffffff;stop-opacity:0.8'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad2)' d='M0,192L48,186.7C96,181,192,171,288,165.3C384,

@@ -1,7 +1,20 @@
+import { useEffect } from 'react'
 import Image from 'next/image'
 import Link from 'next/link'
 
 export default function Home() {
+  useEffect(() => {
+    const handleScroll = () => {
+      const scrollY = window.scrollY
+      document.querySelectorAll('.wave').forEach((wave, index) => {
+        const speed = index === 0 ? 0.2 : 0.4 // 波ごとの動きの速さ
+        wave.style.transform = `translateY(${scrollY * speed}px)`
+      })
+    }
+    window.addEventListener('scroll', handleScroll)
+    return () => window.removeEventListener('scroll', handleScroll)
+  }, [])
+
   return (
     <section style={{
       position: 'relative',
@@ -77,12 +90,12 @@ export default function Home() {
         }
         .wave1 {
           bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='url(%23grad1)' fill-opacity='1' d='M0,160L48,165.3C96,171,192,181,288,165.3C384,149,480,107,576,85.3C672,64,768,64,864,90.7C960,117,1056,171,1152,186.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z'/%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='0%25'%3E%3Cstop offset='0%' style='stop-color:%23FFD700;stop-opacity:1'/%3E%3Cstop offset='100%' style='stop-color:%23ffffff;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23FFD700' fill-opacity='1' d='M0,160L48,165.3C96,171,192,181,288,165.3C384,149,480,107,576,85.3C672,64,768,64,864,90.7C960,117,1056,171,1152,186.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z'/%3E%3C/svg%3E");
           animation: waveMove 12s linear infinite;
         }
         .wave2 {
           bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='url(%23grad2)' fill-opacity='0.6' d='M0,192L48,186.7C96,181,192,171,288,165.3C384,160,480,160,576,176C672,192,768,224,864,240C960,256,1056,256,1152,245.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L0,320Z'/%3E%3Cdefs%3E%3ClinearGradient id='grad2' x1='0%' y1='0%' x2='100%' y2='0%25'%3E%3Cstop offset='0%' style='stop-color:%23FFD700;stop-opacity:1'/%3E%3Cstop offset='100%' style='stop-color:%23ffffff;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3C/svg%3E");
+          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cpath fill='%23FFD700' fill-opacity='0.6' d='M0,192L48,186.7C96,181,192,171,288,165.3C384,160,480,160,576,176C672,192,768,224,864,240C960,256,1056,256,1152,245.3C1248,235,1344,213,1392,202.7L1440,192L1440,320L0,320Z'/%3E%3C/svg%3E");
           animation: waveMove 18s linear infinite reverse;
         }
         @keyframes waveMove {

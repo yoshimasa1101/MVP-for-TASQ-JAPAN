@@ -14,11 +14,11 @@ export default function Header() {
       borderBottom: '1px solid #ddd',
       position: 'relative'
     }}>
-      {/* ロゴ */}
-      <div style={{ display: 'flex', alignItems: 'center' }}>
+      {/* ロゴ（PC・スマホ共通） */}
+      <Link href="/" style={{ display: 'flex', alignItems: 'center', textDecoration: 'none' }}>
         <Image src="/logo.svg" alt="TASQ Logo" width={50} height={50} />
-        <h2 style={{ marginLeft: '10px' }}>TASQ JAPAN</h2>
-      </div>
+        <h2 style={{ marginLeft: '10px', color: '#000' }}>TASQ JAPAN</h2>
+      </Link>
 
       {/* PC表示用ナビ */}
       <nav className="nav-links" style={{

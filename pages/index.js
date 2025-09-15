@@ -37,8 +37,8 @@ export default function Home() {
           <h1>逆オークション型マッチングプラットフォーム</h1>
           <p>無駄な営業をなくし、最適なマッチングを最短で実現します。</p>
           <div className="button-group">
-            <Link href="/register">
-              <button className="btn-yellow">ユーザー登録</button>
+            <Link href="#register-form">
+              <button className="btn-yellow">今すぐ無料登録</button>
             </Link>
             <Link href="/auctions">
               <button className="btn-black">オークションを見る</button>
@@ -47,39 +47,33 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ストーリーセクション */}
-      <section className="fade-section story alt">
-        <div className="story-text">
-          <h2>なぜTASQなのか？</h2>
-          <p>従来の営業活動は時間もコストもかかります。TASQは逆オークション形式で、最適な相手と最短でマッチングします。</p>
-        </div>
-        <div className="story-image">
-          <Image src="/screenshots/why-tasq.png" alt="Why TASQ" width={500} height={300} />
+      {/* 簡易登録フォーム */}
+      <section id="register-form" className="fade-section form-section">
+        <h2>無料で始める</h2>
+        <p>以下のフォームに入力して、すぐにTASQを体験しましょう。</p>
+        <form>
+          <input type="text" placeholder="お名前" required />
+          <input type="email" placeholder="メールアドレス" required />
+          <button type="submit" className="btn-yellow">登録する</button>
+        </form>
+      </section>
+
+      {/* 利用者の声 */}
+      <section className="fade-section testimonials">
+        <h2>利用者の声</h2>
+        <div className="testimonial-list">
+          <blockquote>「営業コストが半分になりました！」 - 株式会社ABC</blockquote>
+          <blockquote>「最適なパートナーと即日契約できました」 - フリーランス山田様</blockquote>
         </div>
       </section>
 
-      <section className="fade-section story">
-        <div className="story-image">
-          <Image src="/screenshots/flow.png" alt="Flow" width={500} height={300} />
-        </div>
-        <div className="story-text">
-          <h2>シンプルな流れ</h2>
-          <p>1. 案件を登録 → 2. 応募を受ける → 3. 最適な条件で契約</p>
-        </div>
-      </section>
-
-      <section className="fade-section story alt">
-        <div className="story-text">
-          <h2>今すぐ始めましょう</h2>
-          <p>登録は無料。数分であなたの案件が全国に届きます。</p>
-          <Link href="/register">
-            <button className="btn-yellow">無料で登録</button>
-          </Link>
-        </div>
-        <div className="story-image">
-          <Image src="/screenshots/start-now.png" alt="Start Now" width={500} height={300} />
-        </div>
-      </section>
+      {/* 固定CTAバー */}
+      <div className="cta-bar">
+        <span>今すぐ無料でTASQを始めましょう</span>
+        <Link href="#register-form">
+          <button className="btn-yellow">無料登録</button>
+        </Link>
+      </div>
 
       <style jsx>{`
         /* ヒーロー */
@@ -144,52 +138,56 @@ export default function Home() {
           box-shadow: 0 6px 15px rgba(0,0,0,0.35);
         }
 
-        /* ストーリーセクション */
-        .story {
-          display: flex;
-          align-items: center;
-          justify-content: space-between;
-          gap: 40px;
-          max-width: 1100px;
+        /* フォーム */
+        .form-section {
+          max-width: 500px;
           margin: 80px auto;
-          padding: 0 20px;
-          flex-wrap: wrap;
-        }
-        .story.alt {
-          flex-direction: row-reverse;
-        }
-        .story-text {
-          flex: 1 1 400px;
-        }
-        .story-image {
-          flex: 1 1 400px;
           text-align: center;
         }
-        .story h2 {
-          font-size: 2rem;
-          margin-bottom: 15px;
+        .form-section form {
+          display: flex;
+          flex-direction: column;
+          gap: 15px;
         }
-        .story p {
-          font-size: 1.1rem;
-          color: #333;
+        .form-section input {
+          padding: 10px;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 5px;
         }
 
-        /* 波アニメーション */
-        .wave {
-          position: absolute;
+        /* 利用者の声 */
+        .testimonials {
+          max-width: 800px;
+          margin: 80px auto;
+          text-align: center;
+        }
+        .testimonial-list blockquote {
+          background: #f9f9f9;
+          padding: 15px;
+          border-left: 5px solid #FFD700;
+          margin: 20px 0;
+          font-style: italic;
+        }
+
+        /* 固定CTAバー */
+        .cta-bar {
+          position: fixed;
+          bottom: 0;
           left: 0;
-          width: 200%;
-          height: 100%;
-          background-repeat: repeat-x;
-          background-size: 50% 100%;
-          opacity: 0.5;
-          will-change: transform;
+          width: 100%;
+          background: #000;
+          color: #fff;
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          padding: 10px 20px;
+          z-index: 1000;
         }
-        .wave1 {
-          bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cdefs%3E%3ClinearGradient id='grad1' x1='0%' y1='0%' x2='100%' y2='0'%3E%3Cstop offset='0%' style='stop-color:%23FFD700;stop-opacity:1'/%3E%3Cstop offset='100%' style='stop-color:%23ffffff;stop-opacity:1'/%3E%3C/linearGradient%3E%3C/defs%3E%3Cpath fill='url(%23grad1)' d='M0,160L48,165.3C96,171,192,181,288,165.3C384,149,480,107,576,85.3C672,64,768,64,864,90.7C960,117,1056,171,1152,186.7C1248,203,1344,181,1392,170.7L1440,160L1440,320L0,320Z'/%3E%3C/svg%3E");
-          animation: waveMove 12s linear infinite;
+        .cta-bar span {
+          font-size: 1rem;
         }
-        .wave2 {
-          bottom: 0;
-          background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 1440 320'%3E%3Cdefs%3E%
+      `}</style>
+    </>
+  )
+}

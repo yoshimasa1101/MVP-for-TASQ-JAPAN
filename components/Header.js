@@ -22,7 +22,7 @@ export default function Header() {
 
       {/* PC表示用ナビ */}
       <nav className="nav-links" style={{
-        display: menuOpen ? 'none' : 'flex',
+        display: 'flex',
         gap: '20px'
       }}>
         <Link href="/register">ユーザー登録</Link>

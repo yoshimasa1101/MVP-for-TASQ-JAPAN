@@ -1,72 +1,39 @@
-// ここではメール送信と紹介者情報の保存を同時に行う例
-// DB保存部分はダミー処理にしているので、実際はPrismaやSupabase等に置き換えてください
+import nodemailer from 'nodemailer';
 
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
-    return res.status(405).json({ message: 'Method Not Allowed' })
+    return res.status(405).json({ message: 'Method Not Allowed' });
   }
 
-  const { name, email, referrer } = req.body
+  const { name, email, message } = req.body;
 
-  if (!name || !email) {
-    return res.status(400).json({ message: '名前とメールアドレスは必須です' })
+  if (!name || !email || !message) {
+    return res.status(400).json({ message: 'Missing required fields' });
   }
 
   try {
-    // --- DB保存（ここは実際のDB処理に置き換え） ---
-    console.log('新規登録:', { name, email, referrer })
+    // 環境変数はVercelの「Project Settings → Environment Variables」で設定
+    const transporter = nodemailer.createTransport({
+      host: process.env.SMTP_HOST,
+      port: process.env.SMTP_PORT,
+      secure: process.env.SMTP_SECURE === 'true', // trueなら465, falseなら587
+      auth: {
+        user: process.env.SMTP_USER,
+        pass: process.env.SMTP_PASS
+      }
+    });
 
-    // --- SendGridメール送信例 ---
-    await fetch('https://api.sendgrid.com/v3/mail/send', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        personalizations: [
-          {
-            to: [{ email }],
-            subject: 'TASQご登録ありがとうございます'
-          }
-        ],
-        from: { email: 'no-reply@tasq.jp', name: 'TASQ運営' },
-        content: [
-          {
-            type: 'text/plain',
-            value: `${name} 様\n\nTASQへのご登録ありがとうございます。\n\nログインはこちらから: https://tasq.jp/login`
-          }
-        ]
-      })
-    })
+    await transporter.sendMail({
+      from: `"${name}" <${email}>`,
+      to: process.env.MAIL_TO, // 受信先メールアドレス
+      subject: `お問い合わせ from ${name}`,
+      text: message,
+      html: `<p>${message}</p>`
+    });
 
-    // 運営への通知メール
-    await fetch('https://api.sendgrid.com/v3/mail/send', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.SENDGRID_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        personalizations: [
-          {
-            to: [{ email: 'admin@tasq.jp' }],
-            subject: '新規登録がありました'
-          }
-        ],
-        from: { email: 'no-reply@tasq.jp', name: 'TASQシステム' },
-        content: [
-          {
-            type: 'text/plain',
-            value: `新規登録者: ${name} (${email})\n紹介者: ${referrer || 'なし'}`
-          }
-        ]
-      })
-    })
-
-    res.status(200).json({ message: '登録＆メール送信完了' })
+    return res.status(200).json({ message: 'メール送信成功' });
   } catch (error) {
-    console.error(error)
-    res.status(500).json({ message: '処理に失敗しました' })
+    console.error('メール送信エラー:', error);
+    return res.status(500).json({ message: 'メール送信失敗', error: error.message });
   }
 }
